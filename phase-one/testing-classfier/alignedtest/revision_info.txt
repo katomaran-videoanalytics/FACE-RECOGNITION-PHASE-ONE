@@ -1,0 +1,7 @@
+arguments: align_dataset_mtcnn.py test-data aligned-test
+--------------------
+tensorflow version: 1.8.0
+--------------------
+git hash: b''
+--------------------
+b''

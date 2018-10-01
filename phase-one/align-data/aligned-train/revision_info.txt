@@ -1,0 +1,7 @@
+arguments: align_dataset_mtcnn.py train aligned-train
+--------------------
+tensorflow version: 1.8.0
+--------------------
+git hash: b''
+--------------------
+b''
