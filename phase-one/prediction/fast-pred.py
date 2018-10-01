@@ -1,5 +1,6 @@
 import tensorflow as tf
 import imutils
+from imutils.video import FileVideoStream
 import numpy as np
 import argparse
 import facenet1
@@ -18,17 +19,12 @@ from mtcnn_detector import MtcnnDetector
 #"rtsp://admin:admin0864@103.60.63.138:8081/cam/realmonitor?channel=1&subtype=1"
 
 detector = MtcnnDetector(model_folder='model', ctx=mx.cpu(0), num_worker = 4 , accurate_landmark = False)
-camera = cv2.VideoCapture("id2.mp4")
+camera = FileVideoStream("id2.mp4").start()
 
 
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-#capture the whole frame
-
-def grabVideoFeed():
-    grabbed, frame = camera.read()
-    return frame if grabbed else None
 
 def initialSetup():
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -47,7 +43,8 @@ with tf.Graph().as_default():
         
         sampleNum = 0
         while True:
-            frame = grabVideoFeed()
+            frame = camera.read()
+            frame = imutils.resize(frame,width=640)
             
 
             if frame is None:
@@ -132,9 +129,9 @@ with tf.Graph().as_default():
                 else:
                     print("unknown")
 
-                k = cv2.waitKey(1)
-                if k == ord('x'):
-                    break
+            k = cv2.waitKey(1)
+            if k == ord('x'):
+                break
 
         camera.release()
         cv2.destroyAllWindows()
